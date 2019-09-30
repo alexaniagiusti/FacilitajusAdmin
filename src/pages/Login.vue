@@ -48,68 +48,6 @@
           </v-flex>
         </v-flex>
       </v-card>
-      <div class="animated delay-1s bounceInUp">
-        <a>
-          <!-- <span @click="alteraSenhaDialog = true" class="text-weight-thin caption white--text">Bem Vindo(a). {{ dataDeHoje }} </span> -->
-        </a>
-        <div style="margin: 6px;height: 10px;align-items: center; display: flex">
-          <v-icon style="padding-top: 2px;" class="ml-2 mr-2" size="5">fiber_manual_record</v-icon>
-          <a>
-            <span
-              @click="alteraSenhaDialog = true"
-              class="text-weight-thin caption white--text"
-            >Esqueci a senha</span>
-          </a>
-          <v-icon style="padding-top: 2px;" class="ml-2 mr-2" size="5">fiber_manual_record</v-icon>
-          <a style="text-decoration:none" @click="$router.push({'name': 'cadastro'})">
-            <span class="text-weight-thin caption white--text">Não tenho conta</span>
-          </a>
-          <v-icon style="padding-top: 2px;" class="ml-2 mr-2" size="5">fiber_manual_record</v-icon>
-        </div>
-      </div>
-      <v-dialog absolute width="300" v-model="alteraSenhaDialog">
-        <v-flex xs12>
-          <v-card class="pa-2" style="border-radius: 10px">
-            <h3 class="text-xs-center font-weight-light">Recuperar Senha</h3>
-            <v-divider class="mt-2"></v-divider>
-            <v-text-field
-              label="Qual é o seu email?"
-              color="blue"
-              class="ma-1"
-              v-model="dataResetPassword.email"
-            ></v-text-field>
-            <v-btn
-              block
-              color="deep-purple white--text"
-              class="elevation-0"
-              @click="enviaLinkRecuperacaoDeSenha"
-            >Enviar link de recuperação</v-btn>
-            <div
-              v-show="enviaLinkRecuperacao"
-              class="mt-3"
-              style="display: flex; width: 100%; justify-content: center; align-items: center"
-            >
-              <h4>Email enviado</h4>
-              <v-icon class="ml-2" color="yellow darken-3">check</v-icon>
-            </div>
-          </v-card>
-        </v-flex>
-      </v-dialog>
-      <v-dialog absolute width="300" v-model="error">
-        <v-flex xs12>
-          <v-card class="pa-3">
-            <h3 class="text-xs-center">Tivemos um erro</h3>
-            <v-divider class="mt-2"></v-divider>
-            <h2 class="font-weight-light mt-3 mb-3">{{ errorMessage }}</h2>
-            <v-btn
-              block
-              rounded
-              color="yellow darken-3"
-              @click="error = false, errorMessage = '', carregandoLogin=false"
-            >Vou tentar novamente</v-btn>
-          </v-card>
-        </v-flex>
-      </v-dialog>
     </div>
   </v-app>
 </template>
@@ -167,7 +105,7 @@ export default {
 
             let redirectTo = sessionStorage.redirectTo;
             if (redirectTo === undefined) {
-              this.$router.push({ name: "home" });
+              this.$router.push({ name: "dashboard" });
             } else {
               window.location.replace(`${redirectTo}`);
             }
