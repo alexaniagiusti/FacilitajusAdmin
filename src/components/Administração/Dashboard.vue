@@ -15,11 +15,16 @@
         <v-icon color="white" size="60" class="pa-2">
           person
         </v-icon>
+        <div>
+          <p class="text-right pa-3 mt-5" style="font-size: 35pt; color: white">10</p>
+        </div>
     </v-sheet>
 
       <v-card-text class="pt-0">
         <div class="title font-weight-bold mb-2 text-center">Usuários Cadastrados</div>
+        
       </v-card-text>
+      
       </v-card>
     </v-flex>
       <v-flex xs12 md4>
@@ -36,6 +41,9 @@
         <v-icon color="white" size="60" class="pa-2">
           work
         </v-icon>
+        <div>
+          <p class="text-right pa-3 mt-5" style="font-size: 35pt; color: white">20</p>
+        </div>
     </v-sheet>
 
       <v-card-text class="pt-0">
@@ -57,6 +65,9 @@
         <v-icon color="white" size="60" class="pa-2">
           gavel
         </v-icon>
+        <div>
+          <p class="text-right pa-3 mt-5" style="font-size: 35pt; color: white">30</p>
+        </div>
     </v-sheet>
 
       <v-card-text class="pt-0">
