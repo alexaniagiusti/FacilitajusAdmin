@@ -9,12 +9,13 @@
             <!-- Topo da Página, com botão para realizar cadastro de novas dúvidas jurídicas e barra de pesquisa -->
             <v-row>
               <v-col cols="12" xs="12" md="12">
-                <v-btn @click="dialogCadastro=true" color="primary" class="pa-2 mb-5"> <v-icon class="mr-3">gavel</v-icon>Nova Dúvida</v-btn>
+                <v-btn @click="dialogCadastro=true" color="primary" class="pa-2 mb-5">
+                  <v-icon class="mr-3">gavel</v-icon>Nova Dúvida
+                </v-btn>
                 <v-text-field label="Pesquisar" append-icon="search"></v-text-field>
               </v-col>
             </v-row>
             <!-- Final -->
-
           </v-card-title>
           <v-simple-table>
             <template v-slot:default>
@@ -29,20 +30,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
-                  <td>{{ item.nome }}</td>
-                  <td>{{ item.cidade }}</td>
-                  <td>{{ item.tipo }}</td>
-                  <td>{{ item.data }}</td>
+                <tr v-for="item in duvidas" :key="item.id">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.city.city }}</td>
+                  <td>{{ item.actuation.actuation }}</td>
+                  <td>{{ item.created_at | filterDate }}</td>
                   <td>{{ item.id }}</td>
-                  <td><v-btn @click="dialog=true" icon small><v-icon >edit</v-icon></v-btn> </td>
+                  <td>
+                    <v-btn @click="dialog=true" icon small>
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </td>
                 </tr>
               </tbody>
               <!-- Dialog para editar dúvidas jurídicas cadastradas -->
               <v-row justify="center">
                 <v-dialog v-model="dialog" persistent max-width="700px">
-                  <template v-slot:activator="{ on }">
-                  </template>
+                  <template v-slot:activator="{ on }"></template>
                   <v-card>
                     <v-card-title>
                       <v-btn @click="dialog=false" icon>
@@ -51,7 +55,11 @@
                       <v-spacer></v-spacer>
                       <span class="title">Editar Dúvida Jurídica</span>
                       <v-spacer></v-spacer>
-                      <v-btn small="" color="red"><span class="white--text"><v-icon class="mr-2">delete</v-icon>Excluir</span></v-btn>
+                      <v-btn small color="red">
+                        <span class="white--text">
+                          <v-icon class="mr-2">delete</v-icon>Excluir
+                        </span>
+                      </v-btn>
                     </v-card-title>
                     <v-card-text>
                       <v-container>
@@ -85,16 +93,17 @@
                   </v-card>
                 </v-dialog>
               </v-row>
-                <!-- Final do Dialog -->
-              
+              <!-- Final do Dialog -->
+
               <!-- Dialogo para Cadastro de nova dúvida jurídica   -->
               <v-row justify="center">
                 <v-dialog v-model="dialogCadastro" persistent max-width="700px">
-                  <template v-slot:activator="{ on }">
-                  </template>
+                  <template v-slot:activator="{ on }"></template>
                   <v-card>
                     <v-card-title>
-                      <v-btn @click="dialogCadastro=false" icon><v-icon color="black">arrow_back</v-icon></v-btn>
+                      <v-btn @click="dialogCadastro=false" icon>
+                        <v-icon color="black">arrow_back</v-icon>
+                      </v-btn>
                       <v-spacer></v-spacer>
                       <span class="title">Cadastrar Dúvida Jurídica</span>
                       <v-spacer></v-spacer>
@@ -141,77 +150,31 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        dialog: false,
-        dialogCadastro: false,
-        desserts: [
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#01',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#02',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#03',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#04',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#05',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#06',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#07',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#08',
-          },
-          {
-            nome: 'Alexânia Giusti',
-            cidade: 'Macapá - AP',
-            tipo: 'acompanhamentos',
-            data: '25/10/2019',
-            id: '#09',
-          },
-        ],
-      }
-    }, 
+import moment from "moment";
+export default {
+  data() {
+    return {
+      dialog: false,
+      dialogCadastro: false,
+      duvidas: []
+    };
+  },
+  filters: {
+    filterDate(val) {
+      return moment(val).format("DD/MM/YYYY");
+    }
+  },
+  methods: {
+    getDuvidas() {
+      this.$axios
+        .get(`${this.$api}/api/v1/legal-cases`, this.$headers)
+        .then(res => (this.duvidas = res.data))
+        .then(() => this.$store.commit("setVueLoad", false));
+    }
+  },
+  created() {
+    this.$store.commit("setVueLoad", true);
+    this.getDuvidas();
   }
+};
 </script>

@@ -106,6 +106,7 @@ export default {
             let redirectTo = sessionStorage.redirectTo;
             if (redirectTo === undefined) {
               this.$router.push({ name: "dashboard" });
+              location.reload();
             } else {
               window.location.replace(`${redirectTo}`);
             }
