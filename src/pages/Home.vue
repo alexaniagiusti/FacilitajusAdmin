@@ -2,10 +2,9 @@
   <v-app>
     <Drawer />
     <v-content>
-      <router-view></router-view>
-      <v-container v-if="$route.name === 'home'" fluid>
-        <EnviarDiligencia/>
-      </v-container>
+      <transition name="router-anim" >
+        <router-view></router-view>
+      </transition>
     </v-content>
     <Footer />
   </v-app>
@@ -14,18 +13,11 @@
 <script>
 import Drawer from '../components/core/Drawer.vue';
 import Footer from '../components/core/Footer.vue';
-import EnviarDiligencia from '../components/diligencias/Enviar'
 
 export default {
-  data() {
-    return {
-
-    };
-  },
   components: {
     Drawer,
     Footer,
-    EnviarDiligencia
   },
 };
 </script>
@@ -47,4 +39,36 @@ export default {
     width: 100%;
     flex-wrap: wrap;
   }
+
+  .router-anim-enter-active {
+  animation: coming 0.4s;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.router-anim-leave-active {
+  animation: going 0.4s;
+}
+
+@keyframes going {
+  from {
+    scale: 1;
+    opacity: 1;
+  }
+  to {
+    scale: 0.7;
+    opacity: 0.1;
+  }
+}
+
+@keyframes coming {
+  from {
+    scale: 0.7;
+    opacity: 0.1;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
 </style>

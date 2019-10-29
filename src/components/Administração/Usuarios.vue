@@ -145,55 +145,16 @@
                       <v-container>
                         <v-row>
                           <v-col cols="12" xs="12" md="12">
-                            <v-text-field label="Nome:" required></v-text-field>
+                            <v-text-field v-model="novoUsuario.nome" label="Nome:" required></v-text-field>
                           </v-col>
                           <v-col cols="12" xs="12" md="12">
-                            <v-text-field label="E-mail:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="6">
-                            <v-text-field label="CPF:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="6">
-                            <v-select label="Sexo:"></v-select>
-                          </v-col>
-
-                          <v-col cols="12" xs="12" md="3">
-                            <v-text-field label="Nascimento:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="3">
-                            <v-text-field label="N° OAB:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="3">
-                            <v-text-field label="UF OAB:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="3">
-                            <v-select label="Tipo:"></v-select>
-                          </v-col>
-
-                          <v-col cols="12" xs="12" md="12">
-                            <v-text-field label="Endereço:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="4">
-                            <v-text-field label="CEP:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="4">
-                            <v-text-field label="Número:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="4">
-                            <v-text-field label="Telefone:"></v-text-field>
-                          </v-col>
-
-                          <v-col cols="12" xs="12" md="4">
-                            <v-text-field label="Bairro:"></v-text-field>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="4">
-                            <v-select label="Cidade:"></v-select>
-                          </v-col>
-                          <v-col cols="12" xs="12" md="4">
-                            <v-select label="Cidade:"></v-select>
+                            <v-text-field v-model="novoUsuario.email" label="E-mail:"></v-text-field>
                           </v-col>
                           <v-col cols="12" xs="12" md="12">
-                            <v-textarea label="Resumo Profissional"></v-textarea>
+                            <v-text-field v-model="novoUsuario.password" label="Senha:"></v-text-field>
+                          </v-col>
+                          <v-col cols="12" xs="12" md="12">
+                            <v-text-field v-model="novoUsuario.cpf" label="CPF:"></v-text-field>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -201,7 +162,7 @@
                     <v-card-actions>
                       <div class="flex-grow-1"></div>
                       <v-btn color="blue darken-1" text @click="dialogCadastro = false">Fechar</v-btn>
-                      <v-btn color="blue darken-1" text @click="dialogCadastro = false">Salvar</v-btn>
+                      <v-btn color="blue darken-1" text @click="storeUsuario">Cadastrar</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -218,13 +179,24 @@
 export default {
   data() {
     return {
-      novoUsuario: {},
+      novoUsuario: {
+        nome: '',
+        email: '',
+        password: '',
+        cpf: ''
+      },
       editarUsuario: {},
       dialog: false,
       dialogCadastro: false,
       usuarios: [],
       usuariosBkp: [],
-      pesquisa: ""
+      pesquisa: "",
+      confirm: {
+        open: false,
+        icon: '',
+        text: '',
+        action: () => {}
+      }
     };
   },
   watch: {
@@ -233,61 +205,69 @@ export default {
     }
   },
   methods: {
+    abreConfirm(icon, text, action) {
+      this.confirm = {
+        open: true,
+        icon: icon,
+        text: text,
+        action: action
+      }
+    },
     search(term) {
       const clientes = this.usuariosBkp;
       const termo = term.toUpperCase();
       let resultado = [];
       clientes.map(cliente => {
         console.log("chamado");
-        if (cliente.name !== null && cliente.name.toUpperCase().match(termo)) {
+        if (!!cliente.name && cliente.name.toUpperCase().match(termo)) {
           return resultado.push(cliente);
         } else if (
-          cliente.email !== null &&
+          !!cliente.email &&
           cliente.email.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
-        } else if (cliente.cpf !== null && cliente.cpf.match(termo)) {
+        } else if (!!cliente.cpf && cliente.cpf.match(termo)) {
           return resultado.push(cliente);
         } else if (
-          cliente.sex !== null &&
+          !!cliente.sex &&
           cliente.sex.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
         } else if (
-          cliente.birthdate !== null &&
+          !!cliente.birthdate &&
           cliente.birthdate.match(termo)
         ) {
           return resultado.push(cliente);
-        } else if (cliente.oab !== null && cliente.oab.match(termo)) {
+        } else if (!!cliente.oab && cliente.oab.match(termo)) {
           return resultado.push(cliente);
-        } else if (cliente.oab_uf !== null && cliente.oab_uf.match(termo)) {
+        } else if (!!cliente.oab_uf && cliente.oab_uf.match(termo)) {
           return resultado.push(cliente);
         } else if (
-          cliente.type_profile !== null &&
+          !!cliente.type_profile &&
           cliente.type_profile.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
         } else if (
-          cliente.street.toUpperCase() !== null &&
-          cliente.street.match(termo)
+          cliente.street &&
+          cliente.street.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
         } else if (
-          cliente.postal_code !== null &&
+          !!cliente.postal_code &&
           cliente.postal_code.match(termo)
         ) {
           return resultado.push(cliente);
-        } else if (cliente.number !== null && cliente.number.match(termo)) {
+        } else if (!!cliente.number && cliente.number.match(termo)) {
           return resultado.push(cliente);
-        } else if (cliente.phone_1 !== null && cliente.phone_1.match(termo)) {
+        } else if (!!cliente.phone_1 && cliente.phone_1.match(termo)) {
           return resultado.push(cliente);
         } else if (
-          cliente.neighborhood !== null &&
+          !!cliente.neighborhood &&
           cliente.neighborhood.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
         } else if (
-          cliente.city !== null &&
+          !!cliente.city &&
           cliente.city.toUpperCase().match(termo)
         ) {
           return resultado.push(cliente);
@@ -299,38 +279,42 @@ export default {
         this.usuarios = resultado;
       }
     },
+    // PEGAR LISTA DE USUÁRIOS
     getUsuarios() {
       this.$axios
         .get(`${this.$api}/api/v1/users`, this.$headers)
-        .then(
-          res => ((this.usuarios = res.data), (this.usuariosBkp = res.data))
-        )
+        .then(res => {
+          this.usuarios = res.data
+          this.usuariosBkp = res.data
+        })
         .then(() => this.$store.commit("setVueLoad", false));
     },
+
+    // CADASTRAR NOVO USUÁRIO
     storeUsuario() {
       this.$store.commit("setVueLoad", true);
       this.$axios
-        .post(`${this.$api}/api/v1/users`, this.novoUsuario, this.$headers)
-        .then(() =>
-          this.$store.dispatch("snackbar_success", "O usuário foi cadastrado")
-        )
-        .then(() => (this.dialogCadastro = false), (this.novoUsuario = {}))
+        .post(`${this.$api}/api/v1/users`, this.novoUsuario)
+        .then(() => this.$store.dispatch("snackbar_success", "O usuário foi cadastrado"))
+        .then(() => this.dialogCadastro = false, this.novoUsuario = {})
         .then(() => this.$store.commit("setVueLoad", false));
     },
+
+    // ATUALIZAR DADOS DO USUÁRIO
     putUsuario() {
       this.$store.commit("setVueLoad", true);
       this.$axios
-        .put(`${this.$api}/api/v1/users`, this.editarUsuario, this.$headers)
-        .then(() =>
-          this.$store.dispatch("snackbar_success", "O usuário foi atualizado")
-        )
-        .then(() => (this.dialog = false), (this.editarUsuario = {}))
+        .put(`${this.$api}/api/v1/users/${this.editarUsuario.id}`, this.editarUsuario, this.$headers)
+        .then(() => this.$store.dispatch("snackbar_success", "O usuário foi atualizado"))
+        .then(() => this.dialog = false, this.editarUsuario = {})
         .then(() => this.$store.commit("setVueLoad", false));
     }
   },
+  // FUNÇÃO EXECUTADA NO MOMENTO QUE O COMPONENTE É ATIVADO
   created() {
     this.$store.commit("setVueLoad", true);
     this.getUsuarios();
+    
   }
 };
 </script>

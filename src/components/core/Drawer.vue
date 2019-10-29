@@ -23,7 +23,7 @@
         <!--	<h3 class="animated delay-1s fadeIn font-weight-light black--text">{{ nome }}</h3> -->
       </div>
       <!-- Grupo com informações do perfil do usuário -->
-      <v-list class="pa-0 mt-0">
+      <v-list nav dense class="pa-0 mt-0">
         <!-- <v-subheader class="ml-3">
           INÍCIO
         </v-subheader>-->
@@ -34,30 +34,49 @@
             <v-list-item-title class="ml-3">Dashboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item @click="$router.push({'name': 'usuarios'})">
           <v-icon class="mr-5">perm_identity</v-icon>
           <v-list-item-content>
             <v-list-item-title class="ml-3">Usuários</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item @click="$router.push({'name': 'diligencias'})">
           <v-icon class="mr-5">work</v-icon>
           <v-list-item-content>
-            <v-list-item-title class="ml-3">Diligências</v-list-item-title>
+            <v-list-item-title class="ml-3">Serviços</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item @click="$router.push({'name': 'duvidas'})">
           <v-icon class="mr-5">gavel</v-icon>
           <v-list-item-content>
             <v-list-item-title class="ml-3">Dúvidas Jurídicas</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item @click="$router.push({'name': 'listar perfil'})">
+          <v-icon class="mr-5">contacts</v-icon>
+          <v-list-item-content>
+            <v-list-item-title class="ml-3">Perfis</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-list-item @click="$router.push({'name': 'listar permissao'})">
+          <v-icon class="mr-5">lock</v-icon>
+          <v-list-item-content>
+            <v-list-item-title class="ml-3">Permissões</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item @click="sair">
           <v-icon class="mr-5">power_settings_new</v-icon>
           <v-list-item-content>
             <v-list-item-title class="ml-3">Sair</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
   </div>

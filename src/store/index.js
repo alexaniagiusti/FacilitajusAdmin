@@ -22,7 +22,8 @@ export default new Vuex.Store({
     },
   },
   state: {
-    vueLoad: false,
+    vueLoad: true,
+    search: '',
     usuario: sessionStorage.getItem('usuario')
       ? JSON.parse(sessionStorage.getItem('usuario'))
       : null,
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    search(state, term) {
+      state.search = term
+    },
     setUser(state, n) {
       state.usuario = n;
     },
@@ -94,6 +98,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    search(state, term) {
+      state.commit('search', term)
+    },
     desativa_snackbar(state) {
       state.commit('desativa_snackbar');
     },
@@ -113,6 +120,8 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    vueLoad: state => state.vueLoad,
+    search: state => state.search,
     getUsuario: state => state.usuario,
     getToken: state => (state.usuario !== null ? state.usuario.token : 'noToken'),
     snackbar_success(state) {

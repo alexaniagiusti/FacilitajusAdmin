@@ -2,7 +2,7 @@
   <v-app>
     <div
       class="principal pa-1"
-      style="overflow: auto; background: linear-gradient(to right, #780206, #061161);"
+      style="overflow: auto; background: linear-gradient(to right, #4e54c8, #8f94fb);"
     >
       <div
         style="display: flex; width: 100%; justify-content: center; align-items: center"
@@ -129,7 +129,7 @@ export default {
     let user = this.$store.getters.getUsuario;
     console.log(user);
     if (user) {
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: "dashboard" });
     }
   }
 };
