@@ -49,4 +49,8 @@ export default {
   align-items: center;
   height: 50px;
 }
+.arredondaBorda {
+		border-radius: 6px;
+		padding: 10px;
+	}
 </style>
